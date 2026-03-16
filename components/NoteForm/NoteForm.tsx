@@ -71,7 +71,7 @@ export default function NoteForm() {
           id="content"
           name="content"
           rows={8}
-          value={draft.title}
+          value={draft.content}
           onChange={handleChange}
           className={css.textarea}
         />
@@ -82,7 +82,7 @@ export default function NoteForm() {
         <select
           id="tag"
           name="tag"
-          value={draft.title}
+          value={draft.tag}
           onChange={handleChange}
           className={css.select}
         >

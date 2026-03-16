@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "NoteHub",
     description:
       "A simple and efficient application for managing personal notes.",
-    url: "https://vercel.com/lisavechers-projects",
+    url: "https://08-zustand-jade-nu.vercel.app/",
     images: [
       {
         url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
@@ -38,7 +38,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${roboto.variable}`}>
+      <body className={roboto.variable}>
         <TanStackProvider>
           <Header />
           {children}

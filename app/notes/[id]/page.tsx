@@ -10,9 +10,10 @@ import type { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const note = await fetchNoteById(params.id);
+  const { id } = await params;
+  const note = await fetchNoteById(id);
 
   const title = `${note.title} | NoteHub`;
   const description = note.content.slice(0, 160);
@@ -23,7 +24,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://vercel.com/lisavechers-projects/notes/${params.id}`,
+      url: `https://08-zustand-jade-nu.vercel.app/notes/${id}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
