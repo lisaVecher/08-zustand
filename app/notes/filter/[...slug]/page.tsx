@@ -6,6 +6,7 @@ import {
 import { fetchNotes } from "@/lib/api";
 import type { NoteTag } from "@/types/note";
 import NotesClient from "./Notes.client";
+import type { Metadata } from "next";
 
 interface NotesFilterPageProps {
   params: Promise<{
@@ -17,14 +18,44 @@ interface NotesFilterPageProps {
   }>;
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const currentTag = slug?.[0] ?? "all";
+
+  const title = `Notes filtered by ${currentTag} | NoteHub`;
+  const description = `Browse notes filtered by the "${currentTag}" tag in the NoteHub application.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://vercel.com/lisavechers-projects/notes/filter/${currentTag}`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: "NoteHub preview",
+        },
+      ],
+    },
+  };
+}
+
 export default async function NotesFilterPage({
   params,
   searchParams,
 }: NotesFilterPageProps) {
-  const { slug } = await params;
+  const { slug = [] } = await params;
   const query = await searchParams;
 
-  const currentTag = slug[0];
+  const currentTag = slug[0] ?? "all";
   const page = Number(query.page) || 1;
   const search = query.search || "";
 

@@ -5,6 +5,36 @@ import {
 } from "@tanstack/react-query";
 import { fetchNoteById } from "@/lib/api";
 import NoteDetailsClient from "./NoteDetails.client";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const note = await fetchNoteById(params.id);
+
+  const title = `${note.title} | NoteHub`;
+  const description = note.content.slice(0, 160);
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://vercel.com/lisavechers-projects/notes/${params.id}`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: "NoteHub preview",
+        },
+      ],
+    },
+  };
+}
 
 interface Props {
   params: Promise<{ id: string }>;
